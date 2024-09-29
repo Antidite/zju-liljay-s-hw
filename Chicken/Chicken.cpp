@@ -19,12 +19,11 @@ class Chicken
         Chicken(const Chicken &other)  
         {   age=other.age;
             if(other.name !=nullptr)
-            {   delete [] name;
-                int len = strlen(other.name) + 1;
+            {   int len = strlen(other.name) + 1;
                 name = new char[len];
                 for (int i = 0; i < len; i++)
                 name[i] = other.name[i];
-                }
+                }else{name=nullptr;}
         }
         ~Chicken()
         {
@@ -45,18 +44,19 @@ class Chicken
                 name[i] = _name[i];
         }
         Chicken& operator=(const Chicken &other)
-        {
+        {   
             if(this !=&other)
             {   
-                age=other.age;
-                if(name!=nullptr)
-                delete [] name;
+                char *new_name =nullptr;
                 if(other.name!=nullptr){
                     int len=strlen(other.name) + 1;
-                    name=new char[len];
+                    new_name=new char[len];
                     for(int i=0;i<len;i++)
-                        name[i]=other.name[i];
-                }else{name=nullptr;}
+                        new_name[i]=other.name[i];
+                }
+                delete [] name;
+                age=other.age;
+                name=new_name;
             }
             return *this;
         }
