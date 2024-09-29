@@ -1,11 +1,11 @@
 CXX=g++   
 CXXFLAGS=-Wall -std=c++17  
-TARGET=hello  
+TARGET=Chicken  
   
 all: $(TARGET)  
   
-$(TARGET): hello.cpp  
-	$(CXX) $(CXXFLAGS) hello.cpp -o $(TARGET)  
+$(TARGET): Chicken.cpp  
+	$(CXX) $(CXXFLAGS) Chicken.cpp -o $(TARGET)  
   
 clean:  
 	rm -f $(TARGET)  
