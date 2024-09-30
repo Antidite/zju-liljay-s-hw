@@ -35,7 +35,9 @@ class Chicken
             age = _age;
         }
         void setName(const char *_name)
-        {
+        {   
+            if(_name==name)
+                return;
             if(name != nullptr)
                 delete[] name;
             int len = strlen(_name) + 1;
@@ -87,10 +89,14 @@ print(d); // 测试【赋值运算符】是否正确，能正确输出给 20 分
 Chicken a=c;   
 print(a); // 测试【赋值构造函数】是否正确，能正确输出给 20 分    
 
+
 c.setName("Xukun Cai");    
 print(c);    
 print(a);    
 print(d); // 测试是否为【深度复制】，本行与上两行能正确输出给 20 分    
+
+c.setName(c.getName());
+print(c);
 
 Chicken b;    
 b = d = c;    
