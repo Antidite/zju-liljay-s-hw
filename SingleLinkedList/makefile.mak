@@ -1,11 +1,11 @@
 CXX=g++   
 CXXFLAGS=-Wall -std=c++17  
-TARGET=Chicken  
+TARGET=SingleLinkedList  
   
 all: $(TARGET)  
   
-$(TARGET): Chicken.cpp  
-	$(CXX) $(CXXFLAGS) Chicken.cpp -o $(TARGET)  
+$(TARGET): SingleLinkedList.cpp  
+	$(CXX) $(CXXFLAGS) SingleLinkedList.cpp -o $(TARGET)  
   
 clean:  
 	rm -f $(TARGET)  
