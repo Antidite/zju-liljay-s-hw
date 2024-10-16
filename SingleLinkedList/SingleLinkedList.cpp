@@ -43,12 +43,36 @@ public:
     /// 否则返回 false, currentPos 不动。
     bool find(const T &_val) const;  
     /// 删除 currentPos 后面的元素
-    void remove();                                        
+    void remove();        
+    void  _remove();                            
 };
 
 
 
-
+template<typename T>
+void  SingleLinkedList<T>:: _remove()
+{
+    if(head == nullptr || currentPos == nullptr)
+        return;
+    if(head == currentPos)
+    {
+        head = head->next;
+        delete currentPos;
+        currentPos = head;
+        --size;
+        return;
+    }
+    Node* temp = head;
+    while( temp->next != currentPos)
+    {
+        temp = temp->next;
+    }
+    temp->next = currentPos->next;
+    delete currentPos;
+    currentPos = temp->next;
+    --size;
+    return ;
+}
 
 template<typename T>
 T SingleLinkedList<T>:: getCurrentVal() const

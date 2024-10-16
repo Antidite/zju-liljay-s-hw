@@ -1,13 +1,7 @@
-CXX=g++   
-CXXFLAGS=-Wall -std=c++17  
-TARGET=Chicken  
-  
-all: $(TARGET)  
-  
-$(TARGET): Chicken.cpp  
-	$(CXX) $(CXXFLAGS) Chicken.cpp -o $(TARGET)  
+all:
+	g++ -Wall -std=c++17 Chicken.cpp -o Chicken  
   
 clean:  
-	rm -f $(TARGET)  
+	rm -f Chicken 
 
 .PHONY: all clean  

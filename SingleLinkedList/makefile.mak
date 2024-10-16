@@ -5,7 +5,7 @@ TARGET=SingleLinkedList
 all: $(TARGET)  
   
 $(TARGET): SingleLinkedList.cpp  
-	$(CXX) $(CXXFLAGS) SingleLinkedList.cpp -o $(TARGET)  
+	$(CXX) $(CXXFLAGS) SingleLinkedList.cpp -o TARGET  
   
 clean:  
 	rm -f $(TARGET)  
