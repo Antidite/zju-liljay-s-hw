@@ -83,7 +83,7 @@ int main(){
     cout << "Input your name without space (eg-Chinese. 蔡徐坤) (eg-Foreigners. TaylorSwift): " << endl;
     cin >> input;
     mix += input + ',';
-    for(int i = 0; i < 6; i++){
+    for(int i = 0; i < 12; i++){
         string qry = mix + to_string(grade[i]) + ',';
         if(trie.check(qry)){
             cout << "Your grade is: " << grade[i] << endl;
