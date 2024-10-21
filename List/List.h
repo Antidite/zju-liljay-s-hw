@@ -581,6 +581,28 @@ public:
         return retVal;
     }
 
+/*优化后
+iterator erase(iterator from, iterator to)  
+{  
+    if (from == to) 
+    return to;  
+  
+    Node* start = from.current;  
+    Node* end = to.current;  
+  
+    start->prev->next = end;  
+    end->prev = start->prev;  
+  
+    while (from != to) {  
+        Node* delenode = from.current;  
+        from++;  
+        delete delenode;  
+        theSize--;  
+    }  
+  
+    return to;  
+} 
+*/
     /**
      * @brief 删除指定范围的数据节点. 比一个个删除效率高么？
      * 
@@ -589,7 +611,7 @@ public:
      * @return iterator 返回删除位置的下一个迭代器.
      */
     iterator erase(iterator from, iterator to)
-    {
+     {
         /// 这里其实就是重复调用了单个节点删除的 erase 函数.
         /// 因此这个内循环和外部循环完全一致. 
         /// 这里可以做适当的优化么?
