@@ -53,7 +53,8 @@
 \newline
 三.List类
 \newline
-1.我为了测试List默认构造函数与empty功能,定义空链表none,并测试empty,插入一些值以
+1.我为了测试List默认构造函数与empty功能,定义空链表none,并测试empty,插入一些值
+以
 确保空链表可操作。
 \newline
 2.我为了测试初始化构造函数与右值的pushback与pushfront,我定义并初始化一个链表
@@ -86,24 +87,61 @@ size以及== 与!= 函数。
 
 测试结果一切正常。
 输出结果符合预期。
+预期结果为
+\newline 1
+\newline 0 6 \newline
+2 0 1 2 3 4 5 7  \newline
+2 0 1 2 3 4 5 7  \newline
+2 0 1 2 3 4 5 7 \newline
+2 0 1 2 3 4 5 7 \newline
+2 0 1 2 3 4 5 7 \newline
+2 0 1 2 3 4 5 7 \newline
+2 7 7 5 0 0 1 \newline
+-1 -2\newline
+2 1 -1 0 1 2 3 4 5 -2 3 \newline
+11\newline
+0 1\newline
+a b c d a d\newline
+0 1\newline
+4\newline
+0 \newline
+1 -1 0 1 2 3 4 5 -2 \newline
+2 6 \newline
+1 2 3 4 5 6 7 \newline
+1 6 7 6\newline
+1 7 7\newline
+1 1 \newline
 
+输出结果为：\newline
+\newline 1
+\newline 0 6 \newline
+2 0 1 2 3 4 5 7  \newline
+2 0 1 2 3 4 5 7  \newline
+2 0 1 2 3 4 5 7 \newline
+2 0 1 2 3 4 5 7 \newline
+2 0 1 2 3 4 5 7 \newline
+2 0 1 2 3 4 5 7 \newline
+2 7 7 5 0 0 1 \newline
+-1 -2\newline
+2 1 -1 0 1 2 3 4 5 -2 3 \newline
+11\newline
+0 1\newline
+a b c d a d\newline
+0 1\newline
+4\newline
+0 \newline
+1 -1 0 1 2 3 4 5 -2 \newline
+2 6 \newline
+1 2 3 4 5 6 7 \newline
+1 6 7 6\newline
+1 7 7\newline
+1 1 \newline
 
 我用 valgrind 进行测试，发现没有发生内存泄露。
 
 \section{（可选）bug报告}
 
-我发现了一个 bug，触发条件如下：
-
-\begin{enumerate}
-    \item 首先……
-    \item 然后……
-    \item 此时发现……
-\end{enumerate}
-
-据我分析，它出现的原因是：
-
 \end{document}
-
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: t
