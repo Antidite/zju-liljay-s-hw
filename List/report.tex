@@ -1,0 +1,110 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{ctex}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{李伊健, 3230102477}
+\chead{数据结构与算法第四次作业}
+\rhead{Oct.21th, 2024}
+
+\section{测试程序的设计思路}
+
+我将函数分为三大类
+\newline
+一.iterator类
+\newline 
+二.constiterator类
+\newline
+三.List类
+\newline
+1.我为了测试List默认构造函数与empty功能,定义空链表none,并测试empty,插入一些值以
+确保空链表可操作。
+\newline
+2.我为了测试初始化构造函数与右值的pushback与pushfront,我定义并初始化一个链表
+l1,并在其中进行pushback与pushfront操作,cout了之后检查其是否正确。
+\newline
+3.我测试了拷贝构造函数与移动构造函数与赋值构造函数,定义了l1copy与l1move与l2,
+并在l1消亡掉后,又验证了他们是深度复制。同时我定义三个临时变量a,b,c来验证了
+左值的pushback与pushfront操作。
+\newline
+4.我通过对l2进行操作
+测试了iterator 中begin与end,前后置--与++运算符号以及*运算符,back front函数
+size以及== 与!= 函数。
+\newline
+5.我通过定义lconst并进行操作
+测试了constiterator 中begin与end,前后置--与++运算符号以及*运算符,back front函数
+size以及== 与!= 函数。
+\newline
+6.我对l1copy进行了clear操作,并用empty进行验证。
+\newline
+7.我通过对l2进行操作cout后
+验证了popfront与popback操作。
+\newline
+8.我通过对l2进行操作验证了左右值的insert函数,
+以及erase 与erase from to 函数,cout后进行验证。
+\newline
+9.我借用自己定义的isnull函数判断了两个默认构造函数iterator与constiterator类
+默认构造正确。
+
+\section{测试的结果}
+
+测试结果一切正常。
+输出结果符合预期。
+
+
+我用 valgrind 进行测试，发现没有发生内存泄露。
+
+\section{（可选）bug报告}
+
+我发现了一个 bug，触发条件如下：
+
+\begin{enumerate}
+    \item 首先……
+    \item 然后……
+    \item 此时发现……
+\end{enumerate}
+
+据我分析，它出现的原因是：
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
