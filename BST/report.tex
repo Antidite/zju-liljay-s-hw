@@ -1,0 +1,127 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{ctex}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{李伊健, 3230102477}
+\chead{数据结构与算法第五次作业}
+\rhead{November.4th, 2024}
+
+\section{remove功能的实现}
+首先我们分为detachMin函数与remove函数两个部分 \newline
+\newline
+\par
+1.通过detachMin函数，我希望将被remove的节点通过指针替换成其右子树的最小节点。
+从而通过detachMin函数，我需要剥离该节点，并改变右子树的局部结构，将其剥离后的
+结构再连接起来，于是为了保证在不改变引用变量的前提下，改变树的局部结构，减少
+引入parent指针的操作，我采用了递归的方式找到右子树的最小节点，并将其赋值给tem
+后返回，再通过改变指向其指针为其指向其右节点的指针，成功实现了剥离节点与拼接。\newline
+
+2.回到remove函数，root仅有一个左（右）子节点以及无节点，root为空的情况与示例代码
+相同。问题主要在于如何处理两个子节点的情况。首先我先调用detachMin函数，找到右子树
+的最小节点，并完善剥离节点处的结构后，用oldNode指向root，后并改变了指向root指针
+指向detachMin返回的节点并改变了其左右节点为root的左右节点实现了替换，最终delete
+oldNode，完成了对需要remove节点的内存回收。
+
+\section{测试结果及分析}
+我创建了bst树，并按照下列顺序插入    bst.insert(10);
+bst.insert(5);
+bst.insert(15);
+bst.insert(3);
+bst.insert(7);
+bst.insert(12);
+bst.insert(18);
+bst.insert(1);bst.insert(20)。下面为测试结果：\newline
+Initial Tree:\newline
+1\newline
+3\newline
+5\newline
+7\newline
+10\newline
+12\newline
+15\newline
+18\newline
+20\newline
+Minimum element: 1\newline
+Maximum element: 20\newline
+Contains 7? Yes\newline
+Contains 20? Yes\newline
+Tree after removing 7:（测试删除leaf）\newline
+1\newline
+3\newline
+5\newline
+10\newline
+12\newline
+15\newline
+18\newline
+20\newline
+Tree after removing 15:（测试删除two-children）\newline
+1\newline
+3\newline
+5\newline
+10\newline
+12\newline
+18\newline
+20\newline
+Tree after removing 10:（测试删除root）\newline
+1\newline
+3\newline
+5\newline
+12\newline
+18\newline
+20\newline
+Tree after removing 3:（测试删除one-child）\newline
+1\newline
+5\newline
+12\newline
+18\newline
+20\newline
+Tree after removing 2:（测试删除不存在节点）\newline
+1\newline
+5\newline
+12\newline
+18\newline
+20\newline
+Tree after making empty:\newline
+Empty tree\newline
+Tree after removing null root:测试删除空树）\newline
+Empty tree\newline
+Is tree empty? Yes\newline
+如同结果和括号注释所示，测试了remove的主要功能以及边界情况，验证成功实现了remove的功能。
+\end{document}
