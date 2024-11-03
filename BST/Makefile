@@ -7,4 +7,7 @@ report:
 clean:  
 	rm -f main 
 
+run: all
+	./main
+
 .PHONY: all clean  
