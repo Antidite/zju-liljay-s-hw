@@ -4,7 +4,7 @@ all:
 report:
 	xelatex report.tex
 
-clean:  
+clean:
 	rm -f List 
 
 .PHONY: all clean  
