@@ -368,8 +368,12 @@ private:
 
     void remove(const Comparable &x, BinaryNode * &t) 
     {   
-
+        if(isEmpty() == true){
+            std::cout << "This is a Empty tree,your remove operation is invaild." << std::endl;
+            return;
+        }
         if (t == nullptr) {
+        std::cout << "The element you remove does not exist." << std::endl;
             return;  
         }
         if (x < t->element) {
