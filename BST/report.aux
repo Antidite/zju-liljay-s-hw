@@ -1,0 +1,6 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {1}remove功能的实现}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ 1.通过detachMin函数，我希望将被remove的节点通过指针替换成其右子树的最小节点。 从而通过detachMin函数，我需要剥离该节点，并改变右子树的局部结构，将其剥离后的 结构再连接起来，于是为了保证在不改变引用变量的前提下，改变树的局部结构，减少 引入parent指针的操作，我采用了递归的方式找到右子树的最小节点，并将其赋值给tem 后返回，再通过改变指向其指针为其指向其右节点的指针，成功实现了剥离节点与拼接。}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2.回到remove函数，root仅有一个左（右）子节点以及无节点，root为空的情况与示例代码 相同。问题主要在于如何处理两个子节点的情况。首先我先调用detachMin函数，找到右子树 的最小节点，并完善剥离节点处的结构后，用oldNode指向root，后并改变了指向root指针 指向detachMin返回的节点并改变了其左右节点为root的左右节点实现了替换，最终delete oldNode，完成了对需要remove节点的内存回收。}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}测试结果及分析}{1}{}\protected@file@percent }
+\gdef \@abspage@last{2}
