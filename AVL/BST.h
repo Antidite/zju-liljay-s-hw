@@ -373,6 +373,7 @@ protected:
         } else {
             // 如果元素已存在，则不进行插入
         }
+        balance( t );
     }
 
     /**
