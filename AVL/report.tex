@@ -1,0 +1,56 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle#1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif#1}{\dif#2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\setlength{\headheight}{12.64723pt}
+\lhead{李伊健, 3230102477}
+\chead{数据结构与算法第六次作业}
+\rhead{November.11th, 2024}
+
+\section{remove后保持AVL树功能的实现}
+本质上其实就是对于balance的功能实现:\par
+
+\paragraph{
+首先我在class BinaryNode 中通过添加height，来进行后续的判断操作。第二步，在构造函数
+补充了对height的初始化，同时按照老师上课所讲的旋转balance法，完成了rotateWithLeftChild
+和rotateWithRightChild和doubleWithRightChild和doubleWithLeftChild，基本实现了
+balance函数的功能，并在insert和remove后加入了balance以保证其最终成为AVL tree.}
+
+
+\end{document}
