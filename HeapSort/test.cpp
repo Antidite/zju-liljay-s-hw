@@ -49,7 +49,7 @@ int main()
     std::random_device rd;  
     std::mt19937 gen(rd());  
     std::uniform_int_distribution<> dis1(0, 100000000);
-    std::uniform_int_distribution<> dis2(0, 1000);
+    std::uniform_int_distribution<> dis2(0, 1000);//抽屉原理保证重复性
     std::vector<int> sequence (1111111);
     for(auto i = 0;i < sequence.size(); i++)
     {
