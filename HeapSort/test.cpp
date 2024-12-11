@@ -72,4 +72,9 @@ int main()
         val = dis2(gen);
     }
     check(repetitive);
+
+
+    std::uniform_int_distribution<> dis(0, 8);
+    int i = dis(gen);
+    std::cout << i;
 }
