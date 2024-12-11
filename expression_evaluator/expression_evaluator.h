@@ -32,7 +32,9 @@ class List
         double value = 0;
         void Inputexpression();
         List(){};
-        ~List(){};
+        ~List(){
+            delete sublist;
+        };
         string readstr;
         void readin(string str) 
         {
