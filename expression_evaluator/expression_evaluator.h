@@ -33,7 +33,16 @@ class List
         void Inputexpression();
         List(){};
         ~List(){
-            delete sublist;
+            Node *currentNode = head;
+        while (currentNode != nullptr) {
+            Node *nextNode = currentNode->next_node;
+            delete currentNode;
+            currentNode = nextNode;
+        }
+        if (sublist != nullptr) 
+        {
+        delete sublist;
+        }
         };
         string readstr;
         void readin(string str) 
@@ -82,6 +91,7 @@ class List
             first_judge(readstr);
             second_judge(readstr);
             third_judge(readstr);
+            forth_judge(readstr);
             }catch(const char *msg)
             {
                 cout << msg << endl;
@@ -93,15 +103,32 @@ class List
         {
             readin(readstr);
             judge(readstr);
-            Inputexpression();
-            transfor();
-            run();
+            try{
+            Inputexpression();}catch(const char *msg)
+            {
+                cout << msg << endl;
+                exit(1);
+            }
+            try{
+            transfor();}catch(const char *msg)
+            {
+                cout << msg << endl;
+                exit(1);
+            }
+            try{
+            run();}catch(const char *msg)
+            {
+                cout << msg << endl;
+                exit(1);
+            }
             return value;
         };
 private:
         void first_judge(string str);
         void second_judge(string str);
         void third_judge(string str);
+        void forth_judge(string str);
+        void fifth_judge(string str);
         void behind_copy(iter subend , iter end , Node *&subval);
         void front_copy(iter begin , iter subbegin , Node *&subval);
         List *sublist = nullptr;
@@ -123,6 +150,13 @@ private:
         {
             return *it == '+' || *it == '-' || *it == '*' || *it == '/';
         };
+        void myjudge()
+        {
+            for(auto i = head;i!=nullptr;i=i->next_node)
+            {
+                cout<<i->element<<' ';
+            }
+        }
 };
 void List::first_judge (string str)
 {
@@ -177,7 +211,29 @@ void List::third_judge(string str)
             throw "ILLEGAL PARENTHESIS MATCHING";
         }
 }
-
+void List::forth_judge(string str)
+{
+    int judge = 0;
+    for(auto it = readstr.begin(); it != readstr.end(); ++it)
+    {   
+        if(judge_operator(it))
+        {
+            if(!(judge_element(it+1))&&*(it+1)!='-'&&*(it+1)!='('&&*(it+1)!='['&&*(it+1)!='{')
+            throw "ILLEGAL OPERATION";
+        }
+    }
+}
+void List::fifth_judge(string str)
+{   int judge = 0;
+     for(auto it = readstr.begin(); it != readstr.end(); ++it)
+    {   
+        if(*it == 'e'||*it == '.')
+        {
+            
+            throw "ILLEGAL OPERATION";
+        }
+    }
+}
 void List::behind_copy(iter subend , iter end , Node *&subval ) //注意parent量都不包含括号，sub带括号
 {           
             if(subend + 1 == end)
@@ -217,6 +273,13 @@ void List::behind_copy(iter subend , iter end , Node *&subval ) //注意parent�
                 if(judge_element(it))
                 {   
                     current->element += *it;
+                    if(*it == 'e')
+                {
+                    if(*(it+1)=='-'||*(it+1)=='+'){
+                        current->element += *(++it);
+                        continue;
+                    }
+                }
                 }
                 ++it;
             }
@@ -239,6 +302,13 @@ void List::front_copy(iter begin , iter subbegin,Node *&subval)//注意parent量
                 if(judge_element(it))
                 { 
                     current->element += *it;
+                    if(*it == 'e')
+                {
+                    if(*(it+1)=='-'||*(it+1)=='+'){
+                        current->element += *(++it);
+                        continue;
+                    }
+                }
                 }
                    if(judge_operator(it))
                 { 
@@ -281,6 +351,13 @@ void List::copy(iter begin , iter end)
         if(judge_element(it))
         {
             current->element += *it;
+            if(*it == 'e')
+                {
+                    if(*(it+1)=='-'||*(it+1)=='+'){
+                        current->element += *(++it);
+                        continue;
+                    }
+                }
         }
         if(judge_operator(it))
         {   
@@ -331,10 +408,7 @@ void List::copy( iter begin , iter subbegin, iter subend , iter end)
             which_kind_of_copy = 0;
         }
     }
-
 }
-
-
 string List::substr(string str,iter begin,iter end)
 {
     string  strs ;
@@ -366,14 +440,12 @@ void List::Inputexpression()
         List *subList = new List;
         sublist = subList;
         auto i = readstr.end();
-        while(!(*i == ')' && ju == 0) && i != temb && !(*i == ']' && ju == 1)&& !(*i == '}'&& ju == 2))
+        while(*i != ')'  && i != temb && *i != ']' && *i != '}')
         {
             --i;
         }
-        if(i == temb)
-            {
-            throw "ILLEGAL PARENTHESIS MATCHING";
-            }
+        if((*i == ')'&& ju == 0)||(*i == ']'&& ju == 1)||(*i == '}'&& ju == 2));
+        else throw "ILLEGAL PARENTHESIS MATCHING";
         iter teme = i;
         sublist->begread = bsub = temb;
         sublist->endread = esub = teme;
@@ -403,7 +475,6 @@ void List::transfor()
         return;
     sublist->transfor();
 }
-
 void List::run()
 {   
     if(sublist != nullptr)

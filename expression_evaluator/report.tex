@@ -9,6 +9,7 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{xcolor}
 \usepackage{amsthm}
 \usepackage{enumerate}
 \usepackage{graphicx}
@@ -40,35 +41,93 @@
 \fancyhead{}
 \setlength{\headheight}{12.64723pt}
 \lhead{李伊健, 3230102477}
-\chead{数据结构与算法第七次作业}
-\rhead{December.1st, 2024}
+\chead{数据结构与算法项目作业——四则运算器}
+\rhead{December.20th, 2024}
 
-\section{Heapsort的实现}
+\section{expression\_evaluator的功能及实现}
 
 \paragraph{
-首先想要实现HeapSort大致需要实现一下几个功能: 
-makeheap,
-heapnode,
-deleteMin}
-\subsection{heapnode}
-\paragraph{\hspace{2em}为了实现heapnode,我才用了在一个node上，使用比较的方法，找出最小的一个元素
-并用其与node的root,swap保证最小堆的实现，再进行递归处理保证了交换后的部分以下仍是最小堆，
-至多进行$O(\log n)$.}
-\subsection{makeheap}
-\paragraph{\hspace{2em}makeheap在对input.size进行检验是否小于等于1后，只需要着重讨论大于1的部分
-此时我们只需要从input.size/2-1处开始往下遍历，因为后一半的元素是没有children的.
-递归结束便完成了makeheap.此时遍历后时间复杂度是$O(n\log n)$.}
-\subsection{deleteMin}
-\paragraph{\hspace{2em}deleteMin实际上就是将root元素剥离然后重构heap,但为了保证in-place,我们
-需要将Input delete的内存给再度利用，所以我选择使用swap第一个和最后一个元素，最后再对
-new root进行堆化，也就是heapnode,遍历整个heap后，也完成重建heap.}
-
-\section{Check的实现}
-\paragraph{\hspace{2em}实际上也就是利用std::chrono::highresolutionclock函数进行运行时间的测量，
-同时为了保证公平性，在开始check前，我对input进行了复制，让它们进行相同的数列排序，
-顺序，逆序，随机，和重复四种测试，前两种我选择使用一次函数生成，后两种我选择用STL random
-库中的函数进行生成，并对元素范围进行限制，前者范围远大于input.size以保证随机，后者远小于size
-也大于1000，保证可重复性.最后再利用issort函数，对myheapsort进行检查，错误则输出wrong.
+首先我的expression\_evaluator实现了以下几个所要求的基本功能: \\
+- 支持多重括号和四则运算。\\
+- 支持有限位小数运算，但可以不考虑负数作为输入。\\
+- 识别非法的表达式，如括号不匹配、运算符连续使用、表达式以运算符开头或结尾以及除数是 0 等。\\
+- 能处理含有加(+)、减(-)、乘(*)、除(/)和括号(())的中缀表达式。\\
+再者额外的一些功能：\\
+- 考虑了负数，比如：1+-2.1是合法的，但 1++2.1 是非法的。\\
+- 考虑了科学计数法，比如：-1+2e2是合法的。\\
+- 考虑了科学计数法正负号，比如：-1+2e+2,-1+2e-2是合法的。(注：为方便起见我们认为
+2e是2，如：2e*2就是2*2为4)\\
+- 考虑了\{ \}，[ ]匹配问题，但像\{ ( \} )是非法的。\\
+- 考虑了各种不同的非法情况，并告诉用户何种错误情况。\\
+}
+\subsection{前言}
+\paragraph{\hspace{2em}
+虽然王老师所讲为将中缀表达式转化为后缀表达式，同时利用stack去储存运算，但我觉得在实现
+上可能并不如List来的直观，这也是我如何去实现以及为什么使用List的原因。
+}
+\subsection{思路简介}
+\paragraph{\hspace{2em}
+首先我初步的想法是去递归运算，如何递归呢？我想到在没有括号的情况下，问题将会被
+大大简化，从而能被轻松解决。因此我设想一个List,能够在遇到从左遇到第一个左括号时，
+倒着去寻找一个与之匹配的右括号，将括号外部分复制入List，同时预留一个subval node,
+括号内算式的存入sublist,递归下去，最终必将不含括号，然后将childlist运算的值后返回parentList的subval node,
+从而List中不存在括号，可以运算，逐次返回childList的val,最终至List。return List的val,完成运算。
+}
+\subsection{主要成员函数与重要状态量}
+\paragraph{
+    \hspace{2em}成员函数：\\
+void judge(string str)\\
+void behind\_copy(iter subend , iter end , Node *\&subval);\\
+void front\_copy(iter begin , iter subbegin , Node *\&subval);\\
+List *sublist = nullptr;\\
+void copy(iter begin , iter subbegin, iter subend , iter end);\\
+void copy(iter begin , iter end);\\
+string substr(string str,iter begin,iter end);\\
+void transfor();\\
+bool judge\_element(iter it);\\
+bool judge\_operator(iter it);\\
+void readin(string str) \\
+void run();\\
+void Inputexpression();\\
+double operation(double \&a,char opera,double \&b)\\
+double calculate()\\
+void myjudge()(这个函数是我用来测试输出结果的函数，虽然可能单独提及一个函数显得有些突兀，而且理应
+我应在完成作业时将其删除，不过这个函数在完成我的作业上起到了决定性作用，还是选择将其保留
+并特此一表。)\\
+\hspace{2em}状态量：\\
+int which\_kind\_of\_copy = 0;\\
+int is\_sublist\_copy = 0;\\
+}
+\section{测试及运行结果}
+\subsection{针对错误输入的测试}
+\paragraph{
+如下：\\
+- 1\$1+5  非法字符\\
+- ILLEGAL CHARACTER \\
+- 1++2**6 非法运算\\
+- ILLEGAL OPERATION \\
+- ((2+3+5)*2 括号缺少\\
+- ILLEGAL PARENTHESIS MATCHING \\
+- \{5+2*(3+4\}+2) 括号匹配问题\\
+- ILLEGAL PARENTHESIS MATCHING \\
+- 5+2*(3+2*) 子列缺少运算后数字\\
+- ILLEGAL OPERATION \\
+- 3+5* 缺少运算后数字
+- ILLEGAL OPERATION\\
+- 5+2*3+(1*\{5+2*(3+4\}+2)+2+1) 子列括号匹配问题\\
+- ILLEGAL PARENTHESIS MATCHING
+}
+\subsection{针对运算功能的测试}
+\paragraph{
+如下：\\
+- 1+-2.1 (负数运算)\\
+- 答案是：-1.1 \textcolor{green}{correct}\\
+- -1+2e2 (科学计数法)\\
+- 答案是：199 \textcolor{green}{correct}\\
+- 123456789*987654321(大数运算)\\
+- 答案是：1.21933e+17 \textcolor{green}{correct}\\
+- 0.11+2e-2+2e+2+2e*2(科学计数法再检验)\\
+- 答案是：204.13 \textcolor{green}{correct}\\
 }
 \section{结果及分析}
 \paragraph{\hspace{2em}我运行了数次之后，取平均值之后并保留三位小数得到：\newline

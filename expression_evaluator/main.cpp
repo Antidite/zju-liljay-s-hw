@@ -1,7 +1,8 @@
+
 #include"expression_evaluator.h"
 #include<iostream>
 #include <exception>
-
+#include <cstdlib>
 
 int main()
 {   double calculates = 0.0;
