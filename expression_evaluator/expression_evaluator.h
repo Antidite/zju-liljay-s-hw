@@ -243,12 +243,14 @@ while (i < len) {
             output.push_back(number);
             continue;
         }
-        if (expression[i] == '(' || expression[i] == '[' || expression[i] == '{') {
+        if (expression[i] == '(' || expression[i] == '[' || expression[i] == '{') 
+        {
             opStack.push(expression[i]);
-            i++;
+            ++i;
             continue;
         }
-        if (expression[i] == ')' || expression[i] == ']' || expression[i] == '}') {
+        if (expression[i] == ')' || expression[i] == ']' || expression[i] == '}') 
+        {
             char expected;
             if (expression[i] == ')') expected = '(';
             else if (expression[i] == ']') expected = '[';
@@ -266,7 +268,8 @@ while (i < len) {
             continue;
         }
 
-        if (judge_operator(expression[i])) {
+        if (judge_operator(expression[i])) 
+        {
             char currentOp = expression[i];
             while (!opStack.empty() && judge_operator(opStack.top()) &&
                    acquire_prefrence(opStack.top()) >= acquire_prefrence(currentOp)) {
@@ -279,7 +282,8 @@ while (i < len) {
         }
     }
 
-    while (!opStack.empty()) {
+    while (!opStack.empty()) 
+    {
         char topOp = opStack.top();
         opStack.pop();
         if (topOp == '(' || topOp == '[' || topOp == '{' ||
@@ -292,10 +296,12 @@ while (i < len) {
     return output;
 }
 
-double List::calculate_postfix(const vector<string> data) {
+double List::calculate_postfix(const vector<string> data) 
+{
     stack<double> calculate_stack;
     for (const auto& expression : data) {
-        if (expression.length() == 1 && judge_operator(expression[0])) {
+        if (expression.length() == 1 && judge_operator(expression[0])) 
+        {
             double b = calculate_stack.top(); 
             calculate_stack.pop();
             double a = calculate_stack.top(); 
@@ -304,7 +310,13 @@ double List::calculate_postfix(const vector<string> data) {
             calculate_stack.push(result);
         }
         else {
-            throw "ILLEGAL OPERATION";
+            try {
+                double num = std::stod(expression);
+                calculate_stack.push(num);
+            }
+            catch (const invalid_argument&) {
+                throw "ILLEGAL OPERATION";
+            }
         }
         
     }
@@ -314,7 +326,7 @@ void List::first_judge (string str)
 {
      for(auto it = readstr.begin(); it != readstr.end(); ++it)
     {
-        if(judge_element(*it)||judge_operator(*it)){}    
+        if(judge_element(*it)||judge_operator(*it)||*it == '('||*it == ')'||*it == '['||*it == ']'||*it == '{'||*it == '}'){}    
         else
             {
                 string msg = "ILLEGAL CHARACTER ";
@@ -328,12 +340,12 @@ void List::second_judge(string str)
     int judge = 0;
     for(auto it = readstr.begin(); it != readstr.end(); ++it)
     {   
-        if(*it == '(' || *it == ')'|| *it == '[' || *it == ']' || *it == '{' || *it == '}' || ('0' <= *it && *it <= '9'))
+        if(*it == '(' || *it == ')'|| *it == '[' || *it == ']' || *it == '{' || *it == '}' || judge_number(*it))
             judge = 0;
         if(judge_operator(it))
         {  
                 if(judge == 1)
-            {   
+            {  
                 string msg;
                 msg = "ILLEGAL OPERATION";
                 throw msg;
@@ -376,7 +388,8 @@ void List::forth_judge(string str)
         if(judge_operator(it))
         {
             if(!(judge_element(it+1))&&*(it+1)!='-'&&*(it+1)!='('&&*(it+1)!='['&&*(it+1)!='{')
-            {   string msg = "ILLEGAL OPERATION";
+            { 
+                string msg = "ILLEGAL OPERATION";
                 throw msg ;
             }
         }
@@ -388,7 +401,7 @@ void List::forth_judge(string str)
             if(judge_number(*(it-1)) && judge_number(*(it+1)))
                 continue;
             else
-            {
+            {  
                 string msg = "ILLEGAL OPERATION";
                 throw msg;
             }
@@ -407,7 +420,7 @@ void List::fifth_judge(string str)
         }
         if(*it == 'e'||*it == 'E')
         {   if(judge_e == true)
-            {
+            {  
                 string msg = "ILLEGAL OPERATION";
                 throw msg;
             }
@@ -415,7 +428,7 @@ void List::fifth_judge(string str)
         }
         if(*it == '.')
         {   if(judge_point == true)
-             {
+             {  
                 string msg = "ILLEGAL OPERATION";
                 throw msg;
             }
