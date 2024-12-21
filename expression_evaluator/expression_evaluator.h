@@ -189,10 +189,6 @@ vector<string> List::transforinto_postfix(const string expression) {
     int i = 0;
     int len = expression.length();
 while (i < len) {
-        if (expression[i]==' ') {
-            ++i;
-            continue;
-        }
         if (judge_element(expression[i])) {
             string number;
             while (i < len && (judge_element(expression[i]))) {
@@ -253,8 +249,8 @@ while (i < len) {
         {
             char expected;
             if (expression[i] == ')') expected = '(';
-            else if (expression[i] == ']') expected = '[';
-            else expected = '{';
+            if (expression[i] == ']') expected = '[';
+            if (expression[i] == '}') expected = '{';
             while (!opStack.empty() && opStack.top() != expected) {
                 output.push_back(string(1, opStack.top()));//这里要注意因为是string型vector,所以需要转化为长度为1的string
                 opStack.pop();
@@ -387,7 +383,7 @@ void List::forth_judge(string str)
         if(judge_operator(it))
         {
             if(!(judge_element(it+1))&&*(it+1)!='-'&&*(it+1)!='('&&*(it+1)!='['&&*(it+1)!='{')
-            { 
+            {  
                 string msg = "ILLEGAL OPERATION";
                 throw msg ;
             }
@@ -397,10 +393,10 @@ void List::forth_judge(string str)
     {
         if(*it == '.'||*it == 'e'||*it == 'E')
         {
-            if(judge_number(*(it-1)) && judge_number(*(it+1)))
+            if(judge_number(*(it-1)) && (judge_number(*(it+1))||(*(it+1) == '+'||*(it+1) == '-'&&judge_number(*(it+2)))))
                 continue;
             else
-            {  
+            { 
                 string msg = "ILLEGAL OPERATION";
                 throw msg;
             }

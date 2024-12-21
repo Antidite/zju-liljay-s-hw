@@ -47,6 +47,7 @@
 \section{expression\_evaluator的功能及实现}
 
 \paragraph{
+    \textcolor{red}{请注意测试时请不要出现空格}\\
 首先我的expression\_evaluator实现了以下几个所要求的基本功能: \\
 - 支持多重括号和四则运算。\\
 - 支持有限位小数运算，但可以不考虑负数作为输入。\\
@@ -84,7 +85,7 @@
 这是pop栈顶两个元素进行相应运算，并再将运算结果push top。最后直至运算直至没有运算符且只有一个数，
 pop并return即可得到答案。
 }
-\subsection{主要成员函数与重要状态量}
+\subsection{主要成员函数}
 \paragraph{
     \hspace{2em}成员函数：\\
     vector<string> List::transforinto\_postfix();\\
@@ -126,11 +127,11 @@ pop并return即可得到答案。
 - 123456789*987654321(大数运算)\\
 - 答案是：1.21933e+17 \textcolor{green}{correct}\\
 - 0.11+2e-2+2E+2(科学计数法再检验及小数)\\
-- 答案是：204.13 \textcolor{green}{correct}\\
+- 答案是：200.13 \textcolor{green}{correct}\\
 - 5+2*(3+(1*5+2*(3+4)+2)+2+1)(复杂运算)\\
 - 答案是：59 \textcolor{green}{correct}\\
--((5+3)*2)/(4+(3-1)) {除法}\\
-- 
+- ((5+3)*2)/(4+(3-1)) {除法且为List难以消去bug类}\\
+- 答案是：2.66667 \textcolor{green}{correct}
 }
 \section{结果及分析}
 \paragraph{\hspace{2em}我运行了数次之后，取平均值之后并保留三位小数得到：\newline
