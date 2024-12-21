@@ -64,6 +64,9 @@
 \paragraph{\hspace{2em}
 虽然王老师所讲为将中缀表达式转化为后缀表达式，同时利用stack去储存运算，但我觉得在实现
 上可能并不如List来的直观，这也是我如何去实现以及为什么使用List的原因。
+\textcolor{red}{不过遗憾的是，在书写报告时我才发现这种算法在实现类似(2+3)*(1+2)类型时，即多非包含
+括号时会出现一些问题，时间匆忙，因此最后我还是以栈来完成了这一部分的缺漏，为了方便代码我也选择保留，
+也是希望以后有机会能对其再度完善。}
 }
 \subsection{思路简介}
 \paragraph{\hspace{2em}
@@ -115,7 +118,13 @@ int is\_sublist\_copy = 0;\\
 - 3+5* 缺少运算后数字
 - ILLEGAL OPERATION\\
 - 5+2*3+(1*\{5+2*(3+4\}+2)+2+1) 子列括号匹配问题\\
-- ILLEGAL PARENTHESIS MATCHING
+- ILLEGAL PARENTHESIS MATCHING \\
+- 3+5.2.1(太多点)\\
+- ILLEGAL OPERATION\\
+- 3e2e3(太多e)\\
+- ILLEGAL OPERATION \\
+- 2/(2-2)(除0)\\
+- A divisor of 0 is ILLEGAL
 }
 \subsection{针对运算功能的测试}
 \paragraph{
@@ -126,8 +135,12 @@ int is\_sublist\_copy = 0;\\
 - 答案是：199 \textcolor{green}{correct}\\
 - 123456789*987654321(大数运算)\\
 - 答案是：1.21933e+17 \textcolor{green}{correct}\\
-- 0.11+2e-2+2e+2+2e*2(科学计数法再检验)\\
+- 0.11+2e-2+2e+2+2e*2(科学计数法再检验及小数)\\
 - 答案是：204.13 \textcolor{green}{correct}\\
+- 5+2*(3+(1*5+2*(3+4)+2)+2+1)(复杂运算)\\
+- 答案是：59 \textcolor{green}{correct}\\
+-((5+3)*2)/(4+(3-1)) {除法}\\
+- 
 }
 \section{结果及分析}
 \paragraph{\hspace{2em}我运行了数次之后，取平均值之后并保留三位小数得到：\newline

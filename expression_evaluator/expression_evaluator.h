@@ -1,9 +1,14 @@
-#include<iostream>
-#include<string>
-#include<limits>
-#include <cstdlib>
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
 using namespace std;
 typedef std::string::iterator iter;
+
+
 
 class List
 {   
@@ -51,48 +56,15 @@ class List
             getline(cin , readstr);
         }
         void run();
-        double operation(double &a,char opera,double &b)
-        {
-            switch(opera)
-            {
-                case '+': return add(a,b);
-                case '-': return minus(a,b);
-                case '*': return times(a,b);
-                case '/': return divide(a,b);
-            }
-        };
-        double add(double &a,double &b)
-        {
-            return a + b;
-        };
-        double minus(double &a,double &b)
-        {
-            return a - b;
-        };
-        double times(double &a,double &b)
-        {
-            return a * b;
-        };
-        double divide(double &a,double &b)
-        {  
-            if(b == 0)
-                {  try{
-                    throw "A divisor of 0 is ILLEGAL";
-                }catch(const char *msg)
-                    {
-                        cout << msg << endl;
-                        exit(1);
-                    }
-                }
-            return a / b;
-        };
+        
         void judge(string str)
         {   try{
             first_judge(readstr);
             second_judge(readstr);
             third_judge(readstr);
             forth_judge(readstr);
-            }catch(const char *msg)
+            fifth_judge(readstr);
+            }catch(string msg)
             {
                 cout << msg << endl;
                 exit(1);
@@ -104,26 +76,46 @@ class List
             readin(readstr);
             judge(readstr);
             try{
-            Inputexpression();}catch(const char *msg)
+                vector<string> data = transforinto_postfix(readstr);
+                return calculate_postfix(data);
+            }catch(const char *msg)
             {
-                cout << msg << endl;
-                exit(1);
+                 cout << msg << endl;
+                        exit(1);
             }
-            try{
-            transfor();}catch(const char *msg)
-            {
-                cout << msg << endl;
-                exit(1);
-            }
-            try{
-            run();}catch(const char *msg)
-            {
-                cout << msg << endl;
-                exit(1);
-            }
-            return value;
         };
+        bool judge_element(iter it)
+        {
+            return *it == 'e'||'0' <= *it && *it <= '9'||*it=='.';
+        };
+        bool judge_operator(iter it)
+        {
+            return *it == '+' || *it == '-' || *it == '*' || *it == '/';
+        };
+//try{
+//            Inputexpression();}catch(const char *msg)
+//            {
+//                cout << msg << endl;
+//                exit(1);
+//            }
+//            try{
+//            transfor();}catch(const char *msg)
+//            {
+//                cout << msg << endl;
+//                exit(1);
+//            }
+//            try{
+//            run();}catch(const char *msg)
+//            {
+//                cout << msg << endl;
+//                exit(1);
+//            }
+//            return value;
 private:
+        int acquire_prefrence(char op);
+        vector<string> transforinto_postfix(const string expression);
+        double calculate_postfix(const vector<string> data);
+        double operation(double &a,char opera,double &b);
         void first_judge(string str);
         void second_judge(string str);
         void third_judge(string str);
@@ -138,18 +130,13 @@ private:
         iter  esub = readstr.end();
         iter  begread = readstr.begin();
         iter  endread = readstr.end();
+        bool judge_element(char it);
+        bool judge_number(char it);
+        bool judge_operator(char it);
         string substr(string str,iter begin,iter end);
         void transfor();
         int which_kind_of_copy = 0;
         int is_sublist_copy = 0;
-        bool judge_element(iter it)
-        {
-            return *it == 'e'||'0' <= *it && *it <= '9'||*it=='.';
-        };
-        bool judge_operator(iter it)
-        {
-            return *it == '+' || *it == '-' || *it == '*' || *it == '/';
-        };
         void myjudge()
         {
             for(auto i = head;i!=nullptr;i=i->next_node)
@@ -158,14 +145,181 @@ private:
             }
         }
 };
+int List::acquire_prefrence(char op)
+{
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0;
+};
+double List::operation(double &a,char opera,double &b)
+        {
+            switch(opera)
+            {
+                case '+': return a+b;
+                case '-': return a-b;
+                case '*': return a*b;
+                case '/': if(b == 0)
+                {  try{
+                    throw "A divisor of 0 is ILLEGAL";
+                }catch(const char *msg)
+                    {
+                        cout << msg << endl;
+                        exit(1);
+                    }
+                }
+            return a / b;
+                default: throw "ILLEGAL OPERATION";
+            }
+        };
+bool List::judge_element(char it)
+    {
+        return it == 'e'||'0' <= it && it <= '9'||it=='.'||it =='E';
+    };
+bool List::judge_number(char it)
+    {
+        return '0' <= it && it <= '9';
+    };
+bool List::judge_operator(char it)
+    {
+        return it == '+' || it == '-' || it == '*' || it == '/';
+    };
+vector<string> List::transforinto_postfix(const string expression) {
+    stack<char> opStack;
+    vector<string> output;
+    int i = 0;
+    int len = expression.length();
+while (i < len) {
+        if (expression[i]==' ') {
+            ++i;
+            continue;
+        }
+        if (judge_element(expression[i])) {
+            string number;
+            while (i < len && (judge_element(expression[i]))) {
+                if (expression[i] == '.') {
+                    number += expression[i];
+                    ++i;
+                }
+                else if (expression[i] == 'e' || expression[i] == 'E') {
+                    number += expression[i];
+                    ++i;
+                    if (i < len && (expression[i] == '+' || expression[i] == '-')) {
+                        number += expression[i];
+                        ++i;
+                    }
+                }
+                else {
+                    number += expression[i];
+                    ++i;
+                }
+            }
+            output.push_back(number);
+            continue;
+        }
+        if (expression[i] == '-' && (i == 0 || expression[i-1] == '(' || judge_operator(expression[i-1]))) {
+            string number = "-";
+            i++;
+            while (i < len && (judge_element(expression[i]))) {
+               if (expression[i] == '.') {
+                    number += expression[i];
+                    ++i;
+                }
+                else if (expression[i] == 'e' || expression[i] == 'E') {
+                    number += expression[i];
+                    ++i;
+                    if (i < len && (expression[i] == '+' || expression[i] == '-')) {
+                        number += expression[i];
+                        ++i;
+                    }
+                    if (i >= len || !judge_number(expression[i])) {
+                        throw "ILLEAGAL OPERATION";
+                    }
+                }
+                else {
+                    number += expression[i];
+                    ++i;
+                }
+            }
+            output.push_back(number);
+            continue;
+        }
+        if (expression[i] == '(' || expression[i] == '[' || expression[i] == '{') {
+            opStack.push(expression[i]);
+            i++;
+            continue;
+        }
+        if (expression[i] == ')' || expression[i] == ']' || expression[i] == '}') {
+            char expected;
+            if (expression[i] == ')') expected = '(';
+            else if (expression[i] == ']') expected = '[';
+            else expected = '{';
+            while (!opStack.empty() && opStack.top() != expected) {
+                output.push_back(string(1, opStack.top()));
+                opStack.pop();
+            }
+
+            if (opStack.empty()) {
+                throw "ILLEGAL PARENTHESIS MATCHING";
+            }
+            opStack.pop();
+            i++;
+            continue;
+        }
+
+        if (judge_operator(expression[i])) {
+            char currentOp = expression[i];
+            while (!opStack.empty() && judge_operator(opStack.top()) &&
+                   acquire_prefrence(opStack.top()) >= acquire_prefrence(currentOp)) {
+                output.push_back(string(1, opStack.top()));
+                opStack.pop();
+            }
+            opStack.push(currentOp);
+            i++;
+            continue;
+        }
+    }
+
+    while (!opStack.empty()) {
+        char topOp = opStack.top();
+        opStack.pop();
+        if (topOp == '(' || topOp == '[' || topOp == '{' ||
+            topOp == ')' || topOp == ']' || topOp == '}') {
+            throw "ILLEGAL PARENTHESIS MATCHING";
+        }
+        output.push_back(string(1, topOp));
+    }
+
+    return output;
+}
+
+double List::calculate_postfix(const vector<string> data) {
+    stack<double> calculate_stack;
+    for (const auto& expression : data) {
+        if (expression.length() == 1 && judge_operator(expression[0])) {
+            double b = calculate_stack.top(); 
+            calculate_stack.pop();
+            double a = calculate_stack.top(); 
+            calculate_stack.pop();
+            double result = operation(a,expression[0],b);
+            calculate_stack.push(result);
+        }
+        else {
+            throw "ILLEGAL OPERATION";
+        }
+        
+    }
+    return calculate_stack.top();
+}
 void List::first_judge (string str)
 {
      for(auto it = readstr.begin(); it != readstr.end(); ++it)
     {
-        if(*it == 'e'||*it == '+' || *it == '-' || *it == '*' || *it == '/' || *it == '(' || *it == ')'|| *it == '[' || *it == ']' || *it == '{' || *it == '}' || ('0' <= *it && *it <= '9'||*it=='.')){}    
+        if(judge_element(*it)||judge_operator(*it)){}    
         else
             {
-            throw "ILLEGAL CHARACTER";
+                string msg = "ILLEGAL CHARACTER ";
+                msg += *it;
+                throw msg;
             }
     }
 }
@@ -179,8 +333,10 @@ void List::second_judge(string str)
         if(judge_operator(it))
         {  
                 if(judge == 1)
-            {
-                throw "ILLEGAL OPERATION";
+            {   
+                string msg;
+                msg = "ILLEGAL OPERATION";
+                throw msg;
             }
             judge = 1;
         if(*(it+1) == '-' && (it+1) != readstr.end())
@@ -207,8 +363,9 @@ void List::third_judge(string str)
             ++bigen;
     }
     if(lilbe != lilen || mebe != meen || bigbe != bigen)
-        {
-            throw "ILLEGAL PARENTHESIS MATCHING";
+        {   
+            string msg =  "ILLEGAL PARENTHESIS MATCHING";
+            throw msg;
         }
 }
 void List::forth_judge(string str)
@@ -219,18 +376,50 @@ void List::forth_judge(string str)
         if(judge_operator(it))
         {
             if(!(judge_element(it+1))&&*(it+1)!='-'&&*(it+1)!='('&&*(it+1)!='['&&*(it+1)!='{')
-            throw "ILLEGAL OPERATION";
+            {   string msg = "ILLEGAL OPERATION";
+                throw msg ;
+            }
+        }
+    }
+    for(auto it = readstr.begin(); it != readstr.end(); ++it)
+    {
+        if(*it == '.'||*it == 'e'||*it == 'E')
+        {
+            if(judge_number(*(it-1)) && judge_number(*(it+1)))
+                continue;
+            else
+            {
+                string msg = "ILLEGAL OPERATION";
+                throw msg;
+            }
         }
     }
 }
 void List::fifth_judge(string str)
-{   int judge = 0;
+{   bool judge_point = false;
+    int judge_e = false;
      for(auto it = readstr.begin(); it != readstr.end(); ++it)
     {   
-        if(*it == 'e'||*it == '.')
+        if(judge_operator(it))
         {
-            
-            throw "ILLEGAL OPERATION";
+            judge_e = false;
+            judge_point = false;
+        }
+        if(*it == 'e'||*it == 'E')
+        {   if(judge_e == true)
+            {
+                string msg = "ILLEGAL OPERATION";
+                throw msg;
+            }
+            judge_e = true;
+        }
+        if(*it == '.')
+        {   if(judge_point == true)
+             {
+                string msg = "ILLEGAL OPERATION";
+                throw msg;
+            }
+            judge_point = true;
         }
     }
 }
@@ -487,7 +676,6 @@ void List::run()
         if(i->behind_operator == '*'||i->behind_operator == '/')
         {   
             auto next = i->next_node;
-            i->val = i->behind_operator == '*'?  times(i->val,next->val):divide(i->val,next->val);
             i->behind_operator = next->behind_operator;
             i->next_node = next->next_node;
         }
@@ -499,7 +687,6 @@ void List::run()
         if(i->behind_operator == '+'||i->behind_operator == '-')
         {   
             auto next = i->next_node;
-            i->val = i->behind_operator == '+'?  add(i->val,next->val):minus(i->val,next->val);
             i->behind_operator = next->behind_operator;
             i->next_node = next->next_node;
         }
