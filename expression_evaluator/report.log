@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.3.12)  21 DEC 2024 16:38
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.3.12)  21 DEC 2024 19:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -618,19 +618,19 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 [1
 
-] [2]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 151.
+]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 142.
  (d:/latex/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 151.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 142.
  (d:/latex/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [3] (./report.aux) ) 
+) [2] [3] (./report.aux) ) 
 Here is how much of TeX's memory you used:
  12815 strings out of 476683
  305989 string characters out of 5804929
- 1866012 words of memory out of 5000000
+ 1873012 words of memory out of 5000000
  32910 multiletter control sequences out of 15000+600000
  516960 words of font info for 70 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191

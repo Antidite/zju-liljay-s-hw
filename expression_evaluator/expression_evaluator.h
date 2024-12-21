@@ -256,10 +256,9 @@ while (i < len) {
             else if (expression[i] == ']') expected = '[';
             else expected = '{';
             while (!opStack.empty() && opStack.top() != expected) {
-                output.push_back(string(1, opStack.top()));
+                output.push_back(string(1, opStack.top()));//这里要注意因为是string型vector,所以需要转化为长度为1的string
                 opStack.pop();
             }
-
             if (opStack.empty()) {
                 throw "ILLEGAL PARENTHESIS MATCHING";
             }
