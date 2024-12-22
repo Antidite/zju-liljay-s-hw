@@ -86,7 +86,7 @@ class List
         };
         bool judge_element(iter it)
         {
-            return *it == 'e'||'0' <= *it && *it <= '9'||*it=='.';
+            return *it == 'e'||'0' <= *it && *it <= '9'||*it=='.'||*it=='E';
         };
         bool judge_operator(iter it)
         {
@@ -183,109 +183,114 @@ bool List::judge_operator(char it)
     {
         return it == '+' || it == '-' || it == '*' || it == '/';
     };
-vector<string> List::transforinto_postfix(const string expression) {
-    stack<char> opStack;
+vector<string> List::transforinto_postfix(string expression) {
+    stack<char> op_stack;
     vector<string> output;
-    int i = 0;
-    int len = expression.length();
-while (i < len) {
-        if (judge_element(expression[i])) {
+    iter i = expression.begin();
+while (i != expression.end()) {
+        if (judge_element(i)) {
             string number;
-            while (i < len && (judge_element(expression[i]))) {
-                if (expression[i] == '.') {
-                    number += expression[i];
+            while (i != expression.end() && (judge_element(i))) {
+                if (*i == '.') {
+                    number += *i;
                     ++i;
+                    if (i == expression.end() || !judge_number(*i)) {
+                        throw "ILLEAGAL OPERATION";
+                    }
                 }
-                else if (expression[i] == 'e' || expression[i] == 'E') {
-                    number += expression[i];
+                else if (*i == 'e' || *i == 'E') {
+                    number += *i;
                     ++i;
-                    if (i < len && (expression[i] == '+' || expression[i] == '-')) {
-                        number += expression[i];
+                    if (i != expression.end() && (*i == '+' || *i == '-')) {
+                        number += *i;
                         ++i;
                     }
                 }
                 else {
-                    number += expression[i];
+                    number += *i;
                     ++i;
                 }
             }
             output.push_back(number);
             continue;
         }
-        if (expression[i] == '-' && (i == 0 || expression[i-1] == '(' || judge_operator(expression[i-1]))) {
+        if (*i == '-' && (i == expression.begin() || *(i-1) == '(' || judge_operator(i-1))) {
             string number = "-";
             i++;
-            while (i < len && (judge_element(expression[i]))) {
-               if (expression[i] == '.') {
-                    number += expression[i];
+            while (i != expression.end() && (judge_element(i))) {
+               if (*i == '.') {
+                    number += *i;
                     ++i;
+                    if (i == expression.end() || !judge_number(*i)) {
+                        throw "ILLEAGAL OPERATION";
+                    }
                 }
-                else if (expression[i] == 'e' || expression[i] == 'E') {
-                    number += expression[i];
+                else if (*i == 'e' || *i == 'E') {
+                    number += *i;
                     ++i;
-                    if (i < len && (expression[i] == '+' || expression[i] == '-')) {
-                        number += expression[i];
+                    if (i != expression.end() && (*i == '+' || *i == '-')) {
+                        number += *i;
                         ++i;
                     }
-                    if (i >= len || !judge_number(expression[i])) {
+                    if (i == expression.end() || !judge_number(*i)) {
                         throw "ILLEAGAL OPERATION";
                     }
                 }
                 else {
-                    number += expression[i];
+                    number += *i;
                     ++i;
                 }
             }
             output.push_back(number);
             continue;
         }
-        if (expression[i] == '(' || expression[i] == '[' || expression[i] == '{') 
+        if (*i == '(' || *i == '[' || *i == '{') 
         {
-            opStack.push(expression[i]);
+            op_stack.push(*i);
             ++i;
             continue;
         }
-        if (expression[i] == ')' || expression[i] == ']' || expression[i] == '}') 
+        if (*i == ')' || *i == ']' || *i == '}') 
         {
             char expected;
-            if (expression[i] == ')') expected = '(';
-            if (expression[i] == ']') expected = '[';
-            if (expression[i] == '}') expected = '{';
-            while (!opStack.empty() && opStack.top() != expected) {
-                output.push_back(string(1, opStack.top()));//这里要注意因为是string型vector,所以需要转化为长度为1的string
-                opStack.pop();
+            if (*i == ')') expected = '(';
+            if (*i == ']') expected = '[';
+            if (*i == '}') expected = '{';
+            while (!op_stack.empty() && op_stack.top() != expected) {
+                output.push_back(string(1, op_stack.top()));//这里要注意因为是string型vector,所以需要转化为长度为1的string
+                op_stack.pop();
             }
-            if (opStack.empty()) {
+            if (op_stack.empty()) {
                 throw "ILLEGAL PARENTHESIS MATCHING";
             }
-            opStack.pop();
+            op_stack.pop();
             i++;
             continue;
         }
 
-        if (judge_operator(expression[i])) 
+        if (judge_operator(*i)) 
         {
-            char currentOp = expression[i];
-            while (!opStack.empty() && judge_operator(opStack.top()) &&
-                   acquire_prefrence(opStack.top()) >= acquire_prefrence(currentOp)) {
-                output.push_back(string(1, opStack.top()));
-                opStack.pop();
+            char current_op = *i;
+            while (!op_stack.empty() && judge_operator(op_stack.top()) &&
+                   acquire_prefrence(op_stack.top()) >= acquire_prefrence(current_op)) {
+                output.push_back(string(1, op_stack.top()));
+                op_stack.pop();
             }
-            opStack.push(currentOp);
+            op_stack.push(current_op);
             i++;
             continue;
         }
     }
 
-    while (!opStack.empty()) 
+    while (!op_stack.empty()) 
     {
-        char topOp = opStack.top();
-        opStack.pop();
-        if (topOp == '(' || topOp == '[' || topOp == '{' ||
-            topOp == ')' || topOp == ']' || topOp == '}') {
+        char top_op = op_stack.top();
+        op_stack.pop();
+        if (top_op == '(' || top_op == '[' || top_op == '{' ||
+            top_op == ')' || top_op == ']' || top_op == '}') {
             throw "ILLEGAL PARENTHESIS MATCHING";
         }
-        output.push_back(string(1, topOp));
+        output.push_back(string(1, top_op));
     }
 
     return output;
@@ -400,6 +405,26 @@ void List::forth_judge(string str)
                 string msg = "ILLEGAL OPERATION";
                 throw msg;
             }
+        }
+    }
+    for(auto it = readstr.begin(); it != readstr.end(); ++it)
+    {   
+        if(judge_operator(it))
+        {   
+            if(!(*it == '-'||*it == '+')&&!judge_number(*(it-1))&&*(it-1)!=')'&&*(it-1)!=']'&&*(it-1)!='}')
+            {   
+                string msg = "ILLEGAL OPERATION";
+                throw msg ;
+            }else if((*it == '-'||*it == '+')&& judge_operator(it-1))
+            {   
+                if(!judge_number(*(it-2)))
+                {
+                
+                string msg = "ILLEGAL OPERATION";
+                throw msg ;
+                }
+            }
+
         }
     }
 }

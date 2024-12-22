@@ -42,12 +42,13 @@
 \setlength{\headheight}{12.64723pt}
 \lhead{李伊健, 3230102477}
 \chead{数据结构与算法项目作业——四则运算器}
-\rhead{December.20th, 2024}
+\rhead{December.22th, 2024}
 
 \section{expression\_evaluator的功能及实现}
 
 \paragraph{
-    \textcolor{red}{请注意测试时请不要出现空格}\\
+    \textcolor{red}{请注意测试时请不要出现空格，同时一味的跳过空格是不合理的，如1 2在平常看来
+如果是为了便于书写，而将运算符和数字之间预留空隙，这样子实际上很难判断其为12还是实数域上的默认的标准乘法，因此我们规定在输入时不要输入空格。}\\
 首先我的expression\_evaluator实现了以下几个所要求的基本功能: \\
 - 支持多重括号和四则运算。\\
 - 支持有限位小数运算，但可以不考虑负数作为输入。\\
@@ -90,7 +91,9 @@ pop并return即可得到答案。
     \hspace{2em}成员函数：\\
     vector<string> List::transforinto\_postfix();\\
     void judge();\\
-    int acquire\_prefrence(char op);
+    int acquire\_prefrence(char op);\\
+    double List::operation(double \&a,char opera,double \&b)\\
+    double List::calculate\_postfix(const vector<string> data) \\
 }
 \section{测试及运行结果}
 \subsection{针对错误输入的测试}
@@ -115,7 +118,11 @@ pop并return即可得到答案。
 - 3e2e3(太多e)\\
 - ILLEGAL OPERATION \\
 - 2/(2-2)(除0)\\
-- A divisor of 0 is ILLEGAL
+- A divisor of 0 is ILLEGAL \\
+- 1+2(*2+3)(缺少运算前数字)\\
+- ILLEGAL OPERATION \\
+- *1+2 \\
+- ILLEGAL OPERATION
 }
 \subsection{针对运算功能的测试}
 \paragraph{
@@ -130,40 +137,17 @@ pop并return即可得到答案。
 - 答案是：200.13 \textcolor{green}{correct}\\
 - 5+2*(3+(1*5+2*(3+4)+2)+2+1)(复杂运算)\\
 - 答案是：59 \textcolor{green}{correct}\\
-- ((5+3)*2)/(4+(3-1)) {除法且为List难以消去bug类}\\
-- 答案是：2.66667 \textcolor{green}{correct}
+- ((5+3)*2)/(4+(3-1)) (除法且为List难以消去bug类)\\
+- 答案是：2.66667 \textcolor{green}{correct} \\
+- \{5+2\}*(3+4+2/[3+1]) (带有多种括号的匹配问题)\\
+- 答案是：52.5 \textcolor{green}{correct}
 }
-\section{结果及分析}
-\paragraph{\hspace{2em}我运行了数次之后，取平均值之后并保留三位小数得到：\newline
-}
+\section{结言}
 
-\par
-
-\begin{tabular}{|c|c|c|} 
-    \hline  % 表格上方的横线
-     & my heapsort time & std::sort\_heap time \\  % 第一行
-    \hline  % 行与行之间的横线
-    random sequence & 0.100s & 0.060s \\  % 第二行
-    \hline
-    ordered sequence & 0.046s & 0.028s \\  % 第三行
-    \hline  % 表格底部的横线
-    reverse sequence & 0.045s & 0.057s \\
-    \hline
-    repetitive sequence & 0.082s & 0.056s \\
-    \hline
-\end{tabular}
-
-
-\par
-
-\paragraph{\hspace{2em}不难发现，除了reverse sequence,my sortheap都比std效率低
-(因为myheapsort是最小堆，最后实现的是逆序，于是我已经将mysortheap结果对调，以保证worst与best
-情况对应)我猜测，std存在一些优化策略,比如随机化:
-探测若干项是否满足序关系，如果的确如此，那么正如ordered所显示的那样，时间会大大缩短
-。相反如果不满足序关系占大多数，std可能会先对此进行一个随机化操作，此时时间复杂度
-是$O(1)$不会对整体复杂度产生太大影响。因此std的random,repetitive,reverse的时间
-近乎于相等，而我的程序却没有对此的优化，导致不同程序之间运算时间相差过大.除了best情况
-剩下的均比std要慢。通过查询资料我了解到，std在运算时可能有并行化向量化减少运算时间，而且
-同时优化内存访问模式来提高缓存命中率，这些可能也是std效率比myheapsort快的原因。}
+\paragraph{\hspace{2em}
+通过我的报告和代码，我认为已经完成了尽可能全面的四则运算。
+总的来讲,我认为这次实现四则运算器是一个不小的挑战。但无论如何，最终还是完成了，并通过
+实现运算器复习了之前所学的知识，也激起了对数据结构还有算法方面的兴趣，也是一次不错的
+跨学科尝试！}
 
 \end{document}
