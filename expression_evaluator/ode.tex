@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{type1cm}
+\usepackage{tikz}
+\usetikzlibrary{intersections}
+\usepackage{anyfontsize}
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\usepackage{booktabs}
+\usepackage{pythonhighlight}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{makecell}
+\usepackage{threeparttable}
+\usepackage{array}
+\usepackage{xcolor}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+\geometry{}
+\titleformat{\section}
+{\Large\bfseries} 
+{\thesection}
+{1em}
+{}
+\titleformat{\subsection}
+{\large\bfseries}
+{\thesubsection}
+{1em} 
+{}
+\titlespacing*{\section}
+{0pt} 
+{3.5ex plus 1ex minus .2ex} 
+{2.3ex plus .2ex} 
+\titlespacing*{\subsection}
+{31pt} 
+{3.25ex plus 1ex minus .2ex} 
+{1.5ex plus .2ex}
+\begin{document}
+	\title{ode24-25年秋冬回忆卷}
+	\author{zjulls}
+	\maketitle
+    \paragraph{1.}
+    $
+    (1) xydx + (2x^2+3y^2-20)dy = 0
+    $
+    \\
+
+    $
+    (2) yy^{''}-2(y^{'})^{2}+y(y^{'})^3 = 0
+    $
+    $y(0)=1,y^{'}(0)=3$
+    \\
+
+    $
+    (3) 2yy^{'} - x(y^{'})^{2} = 4x
+    $
+    解通解并判断是否有奇解
+    \paragraph{2.}
+    $
+    (1)y^{''}+4y = \cos x - \sin 2x 
+    $
+    \\
+
+    $
+    (2) x^2y^{''}+4xy^{'}+3y = x
+    $
+
+    $
+    (3)
+    \begin{cases} 
+        x^{'} = -x+3y-3z \\
+        y^{'} = x+y-2z \\
+        z^{'} = x-y  
+    \end{cases}
+    $
+    $x(0)=y(0)=z(0)=1$
+    \paragraph{3.(他这里写的很不科学我改了一下)}
+    已知反应\[
+    2A+B\rightarrow 3C
+    \]
+    且反应速率与$A,B$剩余物质质量之积成正比，初始$A$ 10g,$B$ 20g $C $ 0g,且20min后$C$ 6g,求满足的常微分方程特解以及最后$C$的量。
+    \paragraph{4.判断零解稳定性}
+    $
+    (1)
+    \begin{cases} 
+        x^{'} = -(x+1)^{2} + y +(z+1)^{3} \\
+        y^{'} = 20x-6y(y-1)^{2}-5z\\
+        z^{'} = (x-z)(x+z+1)  
+    \end{cases}
+    $ 
+    第二行好像不是这样，但线性近似后是
+    \\
+
+    $
+    (2)
+    \begin{cases} 
+        x^{'} = -y(-xy+2)-3x^{3} \\
+        y^{'} = x(-2xy+1)-4y^{3}
+    \end{cases}
+    $ 
+    \paragraph{5.(1)求奇点，(2)判断稳定性，(3)求奇点类型并，画线性近似相图}
+    $
+    \begin{cases} 
+        x^{'} = -2x^{2}+4x-y^{2}-3y \\
+        y^{'} = xy-x
+    \end{cases}
+    $ 
+    \paragraph{6.(1)将这个换元代入，(2)问$w(x)$有一个首项为1的二次多项式特解解出来它，(3)问$w(x)$有多项式解时$\lambda$能取到的所有解}
+    $
+    y = e^{-\lambda x}w(x),\lambda \textgreater 0,|y(0)| < +\infty,0 < \int_{x_0}^{+\infty} x^{2}y^{2} \,dx < +\infty
+    \\
+    \begin{cases} 
+        \lambda^{2}y = y^{''} +2\frac{y^{'}}{x}+\frac{y}{x} \\
+        y(x_0)=y_0
+    \end{cases}
+    $
+    第一个等式右边第二项好像不太对，如果我没有计算错误的话化简下来把右边第三项系数改成$1+2\lambda$,再化简后就是我算得到的式子
+    \paragraph{7.求证解在$[x_0,+\infty)$上存在且唯一，已知$f(y)$在$R$上单调递增且连续 }
+    $
+    \begin{cases} 
+        y^{'} = -f(y)+2024 \\
+        y(x_0)=y_0
+    \end{cases}
+    $
+\end{document}

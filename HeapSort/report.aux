@@ -1,0 +1,15 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {1}Heapsort的实现}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ 首先想要实现HeapSort大致需要实现一下几个功能: makeheap, heapnode, deleteMin}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}heapnode}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\hspace  {2em}为了实现heapnode,我才用了在一个node上，使用比较的方法，找出最小的一个元素 并用其与node的root,swap保证最小堆的实现，再进行递归处理保证了交换后的部分以下仍是最小堆， 至多进行$O(\log n)$.}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}makeheap}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\hspace  {2em}makeheap在对input.size进行检验是否小于等于1后，只需要着重讨论大于1的部分 此时我们只需要从input.size/2-1处开始往下遍历，因为后一半的元素是没有children的. 递归结束便完成了makeheap.此时遍历后时间复杂度是$O(n\log n)$.}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}deleteMin}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\hspace  {2em}deleteMin实际上就是将root元素剥离然后重构heap,但为了保证in-place,我们 需要将Input delete的内存给再度利用，所以我选择使用swap第一个和最后一个元素，最后再对 new root进行堆化，也就是heapnode,遍历整个heap后，也完成重建heap.}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Check的实现}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\hspace  {2em}实际上也就是利用std::chrono::highresolutionclock函数进行运行时间的测量， 同时为了保证公平性，在开始check前，我对input进行了复制，让它们进行相同的数列排序， 顺序，逆序，随机，和重复四种测试，前两种我选择使用一次函数生成，后两种我选择用STL random 库中的函数进行生成，并对元素范围进行限制，前者范围远大于input.size以保证随机，后者远小于size 也大于1000，保证可重复性.最后再利用issort函数，对myheapsort进行检查，错误则输出wrong. }{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}结果及分析}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\hspace  {2em}我运行了数次之后，取平均值之后并保留三位小数得到：\newline  }{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\hspace  {2em}不难发现，除了reverse sequence,my sortheap都比std效率低 (因为myheapsort是最小堆，最后实现的是逆序，于是我已经将mysortheap结果对调，以保证worst与best 情况对应)我猜测，std存在一些优化策略,比如随机化: 探测若干项是否满足序关系，如果的确如此，那么正如ordered所显示的那样，时间会大大缩短 。相反如果不满足序关系占大多数，std可能会先对此进行一个随机化操作，此时时间复杂度 是$O(1)$不会对整体复杂度产生太大影响。因此std的random,repetitive,reverse的时间 近乎于相等，而我的程序却没有对此的优化，导致不同程序之间运算时间相差过大.除了best情况 剩下的均比std要慢。通过查询资料我了解到，std在运算时可能有并行化向量化减少运算时间，而且 同时优化内存访问模式来提高缓存命中率，这些可能也是std效率比myheapsort快的原因。}{1}{}\protected@file@percent }
+\gdef \@abspage@last{1}
